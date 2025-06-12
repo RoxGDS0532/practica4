@@ -1,0 +1,29 @@
+name: Deploy React with Docker to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # o 'master' si es tu rama principal
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clona el repositorio
+        uses: actions/checkout@v3
+
+      - name: Configura Docker
+        run: docker build -t react-builder .
+
+      - name: Extrae la carpeta build del contenedor
+        run: |
+          container_id=$(docker create react-builder)
+          docker cp $container_id:/app/build ./build
+          docker rm $container_id
+
+      - name: Publica en GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
