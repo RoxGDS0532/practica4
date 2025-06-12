@@ -1,12 +1,17 @@
-# Imagen Node dependiendo de versión instalada
-FROM node:24
-# Establece el directorio de trabajo
+# Etapa 1: Construcción
+FROM node:18 AS builder
 WORKDIR /app
-# Copia los archivos del proyecto
-COPY package.json package-lock.json ./
+COPY package*.json ./
 RUN npm install
 COPY . .
-# Expone el puerto de React
-EXPOSE 4200
-# Ejecuta la aplicación en desarrollo
-CMD ["npm", "start"]
+RUN npm run build
+
+# Etapa 2: Servir con Nginx
+FROM nginx:alpine
+COPY --from=builder /app/build /usr/share/nginx/html
+
+# Opcional: configuración personalizada
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
