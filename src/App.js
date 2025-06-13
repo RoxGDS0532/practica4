@@ -7,7 +7,7 @@ function Home() {
   return <h1>Bienvenid@s al inicio de mi pagina web, soy Roxana</h1>;
 }
 function About() {
-  return <h2>Nosotros: Esta app fue creada por Roxana para la Práctica 5 y estudio en la UTNG</h2>;
+  return <h2>Nosotros: Esta app fue creada por Maria Roxana para la Práctica 5 y estudio en la UTNG</h2>;
 }
 
 function App() {
