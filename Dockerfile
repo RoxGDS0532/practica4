@@ -9,7 +9,7 @@ EXPOSE 4200
 
 
 FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder /app/build /usr/share/nginx/html/practica4
 
 
 EXPOSE 80
